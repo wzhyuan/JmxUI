@@ -1,0 +1,51 @@
+* {
+	font-family: "tahoma";
+	font-size: 14px;
+}
+div,span,table {
+	padding-left: 3px;
+	margin: 0;
+}
+
+form{
+	margin: 0;
+}
+
+.jmxElement {
+	border-top: lightblue 1px dashed;
+	border-left: lightblue 1px dashed;
+	border-right: lightblue 1px dashed;
+	border-radius:5px;
+}
+
+img.icon {
+	display: inline;
+}
+
+.jmxType {
+	font-family: verdana;
+	font-variant: small-caps;
+}
+
+.expanded {
+	display: block;
+}
+
+.collapsed {
+	display: none;
+}
+
+.toggle {
+	font-weight: bold;
+	font-size: 16px;
+	color: blue;
+	cursor: pointer;
+}
+
+.toggleChildren {
+	float: left;
+}
+
+.nodecontents {
+	float: right;
+}

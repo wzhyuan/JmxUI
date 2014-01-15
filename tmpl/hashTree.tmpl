@@ -1,0 +1,26 @@
+<div class="jmxElement <%=elementType%>">
+	<div class="<%=elementType%>_children">
+		<%
+		for(var i=0; i < pcpairs.length; i++){
+			var pair = pcpairs[i];
+			var pnode = pair[0];
+			var cnode = pair[1];
+			var cnodeEmpty = cnode.childNodes.length == 0;
+		%>
+			<div id="<%=vid%>_child_<%=(2*i)%>" >
+				<% if(!cnodeEmpty) { %>
+					<div class="toggle toggleChildren"> ^ </div> 
+					<div class="nodecontents"></div>
+					<div id="<%=vid%>_child_<%=(2*i+1)%>" class="expanded"></div>
+				<% }
+				   else{
+				%>
+					<div class="nodecontents"></div>
+				<%
+				   } %>
+			</div>
+		<%
+		}
+		%>
+	</div>
+</div>

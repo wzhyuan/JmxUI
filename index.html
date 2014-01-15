@@ -1,0 +1,59 @@
+<!-- wm.html -->
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+	<title> jmx.js -JMX文件web的编辑器</title>
+	<script type="text/javascript" src="lib/template.js"></script>
+	<script type="text/javascript" src="lib/viewfunctions.js"></script>
+	<script type="text/javascript" src="lib/jmx.js"></script>
+	<script type="text/javascript">
+
+	var jmxDoc;
+
+	function load () {
+		JMX.init({"demo" : false});
+		jmxDoc = JMX.loadAndEdit("editor", "sample/http.jmx.xml");
+	}
+
+	function loadSelection (sel) {
+		var fileName = sel.options[sel.selectedIndex].value;
+		jmxDoc = JMX.loadAndEdit("editor", "sample/" + fileName);
+	}
+
+	function save () {
+	var name=new Date().getTime();
+		try{
+		JMX.save("http://192.168.2.147:8888/test_"+name+".jmx",jmxDoc);	
+			alert("导出文件 test_"+name+".jmx 成功");
+		}catch(e){
+			alert("导出文件 test_"+name+".jmx 失败");
+			//alert("Save didnt work most probably because jmx.js is in Demo mode intended for hosting on Github Pages. If this is your own hosted instance, please change config.json or the input to init().");
+		}
+	}
+	</script>
+	<link rel="stylesheet" type="text/css" href="res/jmx.js.css"></link>
+	<link rel="stylesheet" type="text/css" href="demo.css"></link>
+	</style>
+</head>
+<body onload="load()">
+	<div id="header">
+		<h1>jmx文件配置</h1>
+		<p>JMX文件web的编辑器</p>
+	</div>
+	<div id="body">
+		<div class="col1">
+			<div class="controls">
+				<span>选择文件: </span>
+				<select onchange="loadSelection(this)">
+			    	<option value="http.jmx.xml" selected>http(自定义)</option>
+					<option value="simpleplan.jmx.xml" >simpleplan</option>
+					<option value="blank.jmx.xml">blank</option>
+					<option value="jmxwithargs.jmx.xml">jmxwithargs</option>
+				</select>
+				<button onclick="save();">导出文件</button>
+			</div>
+			<div id="editor"></div>
+		</div>
+	</div>
+</body>
+</html>
