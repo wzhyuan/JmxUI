@@ -1,12 +1,12 @@
 <!-- wm.html -->
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
-	<title> jmx.js -JMX文件web的编辑器</title>
-	<script type="text/javascript" src="lib/template.js"></script>
-	<script type="text/javascript" src="lib/viewfunctions.js"></script>
-	<script type="text/javascript" src="lib/jmx.js"></script>
-	<script type="text/javascript">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+		<title>jmx.js -JMX文件web的编辑器</title>
+		<script type="text/javascript" src="lib/template.js"></script>
+		<script type="text/javascript" src="lib/viewfunctions.js"></script>
+		<script type="text/javascript" src="lib/jmx.js"></script>
+		<script type="text/javascript">
 
 	var jmxDoc;
 
@@ -21,39 +21,89 @@
 	}
 
 	function save () {
-	var name=new Date().getTime();
+	var name="test_"+new Date().getTime()+".jmx";
 		try{
-		JMX.save("http://192.168.2.147:8888/test_"+name+".jmx",jmxDoc);	
-			alert("导出文件 test_"+name+".jmx 成功");
+		JMX.save("http://192.168.1.33:8888/jmx/"+name,jmxDoc);	
+	    document.getElementById("jmxName").value="jmx/"+name;
+		//	document.getElementById("jmxName").value="jmx/test.jmx";
+			alert("导出文件 "+name+" 成功");
 		}catch(e){
-			alert("导出文件 test_"+name+".jmx 失败");
+			alert("导出文件 "+name+" 失败");
 			//alert("Save didnt work most probably because jmx.js is in Demo mode intended for hosting on Github Pages. If this is your own hosted instance, please change config.json or the input to init().");
 		}
 	}
+	function loadJtl(node,fileName){
+	JMX.loadJtl(node,fileName);
+	}
+	function start(o){
+	var fileName=document.getElementById("jmxName").value;
+	if(fileName==null || fileName=="") {
+		alert("请先导出配置文件。");return false;
+	}
+	if(o.value=="开始"){
+	JMX.start("jtl_xml",fileName);
+	}else{
+	JMX.end();
+	}
+		o.value=o.value=="开始"?"结束":"开始";
+	}
 	</script>
-	<link rel="stylesheet" type="text/css" href="res/jmx.js.css"></link>
-	<link rel="stylesheet" type="text/css" href="demo.css"></link>
-	</style>
-</head>
-<body onload="load()">
-	<div id="header">
-		<h1>jmx文件配置</h1>
-		<p>JMX文件web的编辑器</p>
-	</div>
-	<div id="body">
-		<div class="col1">
-			<div class="controls">
-				<span>选择文件: </span>
-				<select onchange="loadSelection(this)">
-			    	<option value="http.jmx.xml" selected>http(自定义)</option>
-					<option value="simpleplan.jmx.xml" >simpleplan</option>
-					<option value="blank.jmx.xml">blank</option>
-					<option value="jmxwithargs.jmx.xml">jmxwithargs</option>
-				</select>
-				<button onclick="save();">导出文件</button>
-			</div>
-			<div id="editor"></div>
+		<link rel="stylesheet" type="text/css" href="res/jmx.js.css"></link>
+		<link rel="stylesheet" type="text/css" href="demo.css"></link>
+		</style>
+	</head>
+	<body onload="load()">
+		<div id="header">
+			<h1>
+				jmx文件配置
+			</h1>
+			<p>
+				JMX文件web的编辑器
+			</p>
 		</div>
-	</div>
-</body>
+		<div id="body">
+			<div class="col1">
+				<div class="controls">
+					<span>选择文件: </span>
+					<select onchange="loadSelection(this)">
+						<option value="http.jmx.xml" selected>
+							http(自定义)
+						</option>
+						<option value="simpleplan.jmx.xml">
+							simpleplan
+						</option>
+						<option value="blank.jmx.xml">
+							blank
+						</option>
+						<option value="jmxwithargs.jmx.xml">
+							jmxwithargs
+						</option>
+					</select>
+					<button onclick="save();">
+						导出文件
+					</button>
+				</div>
+				<div id="editor"></div>
+			</div>
+			<div class="col1">
+				<span style="display: none">加载 jtl文件：<input value="jtl/test.jtl" />
+					<input type="button" value="加载文件"
+						onclick="start('jtl_xml')" />
+				</span>
+				<span >	<input id="startbutton" type="button" value="开始"	onclick="start(this);" /><input readonly="readonly" id="jmxName">
+				</span>
+				<div
+					style="border: 1px green solid; width: 98%; max-height: 200px; overflow: auto"
+					id="jtl_xml"></div>
+				<!--	<textarea id="jtl_xml" readonly="readonly" rows="20" style="width: 98%"></textarea>-->
+			</div>
+				<div class="col1">
+				<span>测试结果：		</span>
+				<div
+					style="border: 1px green solid; width: 98%; max-height: 200px; overflow: auto"
+					id="acs_xml"></div>
+				<!--	<textarea id="jtl_xml" readonly="readonly" rows="20" style="width: 98%"></textarea>-->
+			</div>
+		</div>
+	</body>
 </html>
